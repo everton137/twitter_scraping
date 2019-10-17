@@ -8,8 +8,9 @@ import datetime
 
 # edit these three variables
 user = 'jairbolsonaro'
-start = datetime.datetime(2018, 1, 1)  # year, month, day
-end = datetime.datetime(2018, 12, 31)  # year, month, day
+year = 2019
+start = datetime.datetime(year, 1, 1)  # year, month, day
+end = datetime.datetime(year, 12, 31)  # year, month, day
 
 # only edit these if you're having problems
 delay = 1  # time to wait on each page load before reading the page
@@ -17,7 +18,7 @@ driver = webdriver.Firefox()  # options are Chrome() Firefox() Safari()
 
 
 # don't mess with this stuff
-twitter_ids_filename = 'all_ids.json'
+twitter_ids_filename = 'all_ids-{}.json'.format(year)
 days = (end - start).days + 1
 id_selector = '.time a.tweet-timestamp'
 tweet_selector = 'li.js-stream-item'

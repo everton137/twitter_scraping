@@ -10,6 +10,7 @@ from time import sleep
 
 # CHANGE THIS TO THE USER YOU WANT
 user = 'jairbolsonaro'
+year = '2019'
 
 with open('api_keys.json') as f:
     keys = json.load(f)
@@ -18,11 +19,11 @@ auth = tweepy.OAuthHandler(keys['consumer_key'], keys['consumer_secret'])
 auth.set_access_token(keys['access_token'], keys['access_token_secret'])
 api = tweepy.API(auth)
 user = user.lower()
-output_file = '{}.json'.format(user)
-output_file_short = '{}_short.json'.format(user)
+output_file = '{}-{}.json'.format(user, year)
+output_file_short = '{}-{}_short.json'.format(user, year)
 compression = zipfile.ZIP_DEFLATED
 
-with open('all_ids.json') as f:
+with open('all_ids-{}.json'.format(year)) as f:
     ids = json.load(f)
 
 print('total ids: {}'.format(len(ids)))
@@ -49,7 +50,7 @@ with open(output_file, 'w') as outfile:
     json.dump(all_data, outfile)
 
 print('creating ziped master json file')
-zf = zipfile.ZipFile('{}.zip'.format(user), mode='w')
+zf = zipfile.ZipFile('{}-{}.zip'.format(user, year), mode='w')
 zf.write(output_file, compress_type=compression)
 zf.close()
 
@@ -87,7 +88,7 @@ with open(output_file_short) as master_file:
     data = json.load(master_file)
     fields = ["favorite_count", "source", "text", "in_reply_to_screen_name", "is_retweet", "created_at", "retweet_count", "id_str"]
     print('creating CSV version of minimized json master file')
-    f = csv.writer(open('{}.csv'.format(user), 'w'))
+    f = csv.writer(open('{}-{}.csv'.format(user, year), 'w'))
     f.writerow(fields)
     for x in data:
         f.writerow([x["favorite_count"], x["source"], x["text"], x["in_reply_to_screen_name"], x["is_retweet"], x["created_at"], x["retweet_count"], x["id_str"]])
